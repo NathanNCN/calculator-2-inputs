@@ -23,14 +23,12 @@ def create_equation():
                     break
     except:
         print("Sorry, but excepetion has happend. Please make sure that it is a logcial statment and only numbers and valid symbols are put in.")
-def main():
+def perform_calculations():
     def insert_and_remove():
         mathquestion.insert(index, answer)
         mathquestion.pop(index + 2)
         mathquestion.pop(index + 1)
         mathquestion.pop(index - 1)
-    create_equation()
-def perform_calculations():
     while True:
         if len(mathquestion)==1:
             print(f"The answer to the question is {mathquestion}")
@@ -129,4 +127,5 @@ def perform_calculations():
                 number2 = mathquestion[index + 1]
                 answer = float(number1)-float(number2)
                 insert_and_remove()
-main()
+create_equation()
+perform_calculations()
