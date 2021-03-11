@@ -24,6 +24,11 @@ def create_equation():
     except:
         print("Sorry, but excepetion has happend. Please make sure that it is a logcial statment and only numbers and valid symbols are put in.")
 def perform_calculations():
+    def get_index_and_numbers_from_token(token):
+        index = mathquestion.index(token)
+        number1 = mathquestion[index - 1]
+        number2 = mathquestion[index + 1]
+        return (index, number1, number2)
     def insert_and_remove():
         mathquestion.insert(index, answer)
         mathquestion.pop(index + 2)
@@ -34,98 +39,58 @@ def perform_calculations():
             print(f"The answer to the question is {mathquestion}")
             break
         if '**' in mathquestion:
-            index = mathquestion.index(('**'))
-            number1 = mathquestion[index - 1]
-            number2 = mathquestion[index + 1]
-            answer=float(number1)**float(number2)
+            get_index_and_numbers_from_token("**")
+            index, number1, number2 = get_index_and_numbers_from_token('**')
+            answer = float(number1) ** float(number2)
             insert_and_remove()
-        elif '*' in mathquestion:
-            if "/" in mathquestion:
+        elif '*' in mathquestion or '/' in mathquestion:
+            if "/" in mathquestion and '*' in mathquestion:
                 index1= mathquestion.index(('/'))
                 index2 = mathquestion.index(('*'))
                 if index1<index2:
-                    index = mathquestion.index(('/'))
-                    number1 = mathquestion[index - 1]
-                    number2 = mathquestion[index + 1]
+                    get_index_and_numbers_from_token("/")
+                    index, number1, number2 = get_index_and_numbers_from_token('/')
                     answer = float(number1)/float(number2)
                     insert_and_remove()
                 else:
-                    index = mathquestion.index(('*'))
-                    number1 = mathquestion[index - 1]
-                    number2 = mathquestion[index + 1]
+                    get_index_and_numbers_from_token("*")
+                    index, number1, number2 = get_index_and_numbers_from_token('*')
                     answer = float(number1) * float(number2)
                     insert_and_remove()
-            else:
-                index = mathquestion.index(('*'))
-                number1 = mathquestion[index - 1]
-                number2 = mathquestion[index + 1]
-                answer=float(number1)*float(number2)
+            elif "/" in mathquestion and '*' not in mathquestion:
+                get_index_and_numbers_from_token("/")
+                index, number1, number2 = get_index_and_numbers_from_token('/')
+                answer = float(number1) / float(number2)
                 insert_and_remove()
-        elif '/' in mathquestion:
-            if "*" in mathquestion:
-                index1= mathquestion.index(('*'))
-                index2 = mathquestion.index(('/'))
-                if index1<index2:
-                    index = mathquestion.index(('*'))
-                    number1 = mathquestion[index - 1]
-                    number2 = mathquestion[index + 1]
-                    answer = float(number1)*float(number2)
-                    insert_and_remove()
-                else:
-                    index = mathquestion.index(('/'))
-                    number1 = mathquestion[index - 1]
-                    number2 = mathquestion[index + 1]
-                    answer = float(number1) / float(number2)
-                    insert_and_remove()
             else:
-                index = mathquestion.index(('/'))
-                number1 = mathquestion[index - 1]
-                number2 = mathquestion[index + 1]
-                answer=float(number1)/float(number2)
+                get_index_and_numbers_from_token("*")
+                index, number1, number2 = get_index_and_numbers_from_token('*')
+                answer = float(number1) * float(number2)
                 insert_and_remove()
-        elif '+' in mathquestion:
-            if "-" in mathquestion:
+        elif '+' in mathquestion or '-' in mathquestion:
+            if "-" in mathquestion and "+" in mathquestion:
                 index1= mathquestion.index(('-'))
                 index2 = mathquestion.index(('+'))
                 if index1<index2:
-                    index = mathquestion.index(('/'))
-                    number1 = mathquestion[index - 1]
-                    number2 = mathquestion[index + 1]
+                    get_index_and_numbers_from_token("-")
+                    index, number1, number2 = get_index_and_numbers_from_token('-')
                     answer = float(number1)-float(number2)
                     insert_and_remove()
                 else:
-                    index = mathquestion.index(('+'))
-                    number1 = mathquestion[index - 1]
-                    number2 = mathquestion[index + 1]
+                    get_index_and_numbers_from_token("+")
+                    index, number1, number2 = get_index_and_numbers_from_token('+')
                     answer = float(number1) + float(number2)
                     insert_and_remove()
+            elif "-" in mathquestion and "+" not in mathquestion:
+                get_index_and_numbers_from_token("-")
+                index, number1, number2 = get_index_and_numbers_from_token('-')
+                answer = float(number1) - float(number2)
+                insert_and_remove()
             else:
-                index = mathquestion.index(('+'))
-                number1 = mathquestion[index - 1]
-                number2 = mathquestion[index + 1]
+                get_index_and_numbers_from_token("+")
+                index, number1, number2 = get_index_and_numbers_from_token('+')
                 answer=float(number1)+float(number2)
                 insert_and_remove()
-        elif '-' in mathquestion:
-            if "+" in mathquestion:
-                index1= mathquestion.index(('+'))
-                index2 = mathquestion.index(('-'))
-                if index1<index2:
-                    index = mathquestion.index(('/'))
-                    number1 = mathquestion[index - 1]
-                    number2 = mathquestion[index + 1]
-                    answer = float(number1)+float(number2)
-                    insert_and_remove()
-                else:
-                    index = mathquestion.index(('-'))
-                    number1 = mathquestion[index - 1]
-                    number2 = mathquestion[index + 1]
-                    answer = float(number1) - float(number2)
-                    insert_and_remove()
-            else:
-                index = mathquestion.index(('-'))
-                number1 = mathquestion[index - 1]
-                number2 = mathquestion[index + 1]
-                answer = float(number1)-float(number2)
-                insert_and_remove()
-create_equation()
-perform_calculations()
+if __name__ == '__main__':
+    create_equation()
+    perform_calculations()
